@@ -19,6 +19,7 @@ const complaintResultRouter = require("./app/complaintResult/router");
 
 var app = express();
 dotenv.config();
+app.enable("trust proxy");
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -26,8 +27,9 @@ app.set("view engine", "jade");
 
 app.use(
    cors({
-      origin: ["http://localhost:3000", "http://localhost:5173", "http://localhost:4173"],
+      origin: ["http://localhost:3000", "http://localhost:5173", "http://localhost:4173", "https://kagetsapp.vercel.app", "https://kagets-admin.vercel.app"],
       credentials: true,
+      optionsSuccessStatus: 200,
    })
 );
 app.use(logger("dev"));
