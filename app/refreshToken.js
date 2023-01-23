@@ -4,10 +4,12 @@ const jwt = require('jsonwebtoken')
  const refreshToken = async (req, res, next) => {
     try {
         const refreshToken = req.cookies.refreshToken;
-        if (!refreshToken) return res.sendStatus(401)
+
+        if (!refreshToken) return res.status(401).json({message: 'Unauthorize'})
         const user = await db.User.findAll({
             where: { token: refreshToken }
         })
+
 
         if (!user[0]) return res.sendStatus(403)
         jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
