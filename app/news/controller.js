@@ -2,6 +2,7 @@
 
 const db = require("../../models");
 const fs = require("fs");
+const cloudinaryConfig = require("../../config/cloudinary");
 
 const getNews = async (req, res) => {
    try {
@@ -53,6 +54,12 @@ const storeNews = async (req, res) => {
             image: req.file.filename,
          })
             .then((result) => {
+               //  cloudinaryConfig.uploader.upload(result.image, (imageResult) => {
+               //     return res.json({
+               //        imageUrl: result.secure_url,
+               //        imageId: result.public_id,
+               //     });
+               //  });
                res.status(200).json({
                   msg: "Create data successfully",
                   data: result,
