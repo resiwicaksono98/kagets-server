@@ -2,7 +2,7 @@
 
 const db = require("../../models");
 const fs = require("fs");
-const cloudinaryConfig = require("../../config/cloudinary");
+const cloudinary = require("cloudinary").v2;
 
 const getNews = async (req, res) => {
    try {
@@ -54,12 +54,6 @@ const storeNews = async (req, res) => {
             image: req.file.filename,
          })
             .then((result) => {
-               //  cloudinaryConfig.uploader.upload(result.image, (imageResult) => {
-               //     return res.json({
-               //        imageUrl: result.secure_url,
-               //        imageId: result.public_id,
-               //     });
-               //  });
                res.status(200).json({
                   msg: "Create data successfully",
                   data: result,
@@ -112,7 +106,10 @@ const destroyNews = async (req, res) => {
       const result = await db.News.destroy({
          where: { id: id },
       });
-      fs.unlinkSync(`public/images/news/${news.image}`);
+      cloudinary.uploader.destroy(news.image, (err) => {
+         console.log(err);
+         console.log("Delete Image Success");
+      });
       return res.json({
          msg: "Success Delete data",
          data: result,
