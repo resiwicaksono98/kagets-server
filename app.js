@@ -7,7 +7,9 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var cors = require("cors");
 var dotenv = require("dotenv");
-const multer = require("multer");
+const session = require("express-session");
+const sequelizeStore = require("connect-session-sequelize");
+const db = require("./models/index");
 
 var indexRouter = require("./routes/index");
 const authRouter = require("./app/auth/router");
@@ -16,10 +18,30 @@ const newsRouter = require("./app/news/router");
 const complaintRouter = require("./app/complaint/router");
 const problemTypeRouter = require("./app/problem_type/router");
 const complaintResultRouter = require("./app/complaintResult/router");
+dotenv.config();
 
 var app = express();
-dotenv.config();
+
+const sessionStore = sequelizeStore(session.Store);
+const store = new sessionStore({
+   db: db.sequelize,
+});
+
 app.enable("trust proxy");
+
+app.use(
+   session({
+      name: "kepo",
+      secret: "resiwicaksonoxfitriani",
+      resave: false,
+      saveUninitialized: false,
+      store: store,
+      cookie: {
+         maxAge: 1000 * 60 * 60 * 24 * 1, // 1 Day
+         //  sameSite: "none",
+      },
+   })
+);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

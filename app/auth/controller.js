@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 
 const getUsers = async (req, res, next) => {
    try {
-      const refreshToken = req.cookies.refreshToken;
+      const refreshToken = req.session.refreshToken;
       if (!refreshToken) return res.status(500).json({ message: "No Token" });
       const users = await db.User.findOne({
          where: { token: refreshToken },
@@ -77,11 +77,7 @@ const login = async (req, res, next) => {
             where: { id: id },
          }
       );
-      res.cookie("refreshToken", refreshToken, {
-         httpOnly: true,
-         secure: "resiwicaksonoxpitriani",
-         maxAge: 24 * 60 * 60 * 1000,
-      });
+      req.session.refreshToken = refreshToken;
       res.status(200).json({ user, accessToken });
    } catch (err) {
       console.log(err);
