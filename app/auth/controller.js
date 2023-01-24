@@ -79,7 +79,6 @@ const login = async (req, res, next) => {
       );
       res.cookie("refreshToken", refreshToken, {
          maxAge: 24 * 60 * 60 * 1000,
-         sameSite: "none",
       });
       res.status(200).json({ user, accessToken });
    } catch (err) {
