@@ -103,12 +103,12 @@ const destroyNews = async (req, res) => {
    try {
       const { id } = req.params;
       const news = await db.News.findByPk(id);
-      const result = await db.News.destroy({
-         where: { id: id },
-      });
       cloudinary.uploader.destroy(news.image, (err) => {
          console.log(err);
          console.log("Delete Image Success");
+      });
+      const result = await db.News.destroy({
+         where: { id: id },
       });
       return res.json({
          msg: "Success Delete data",
