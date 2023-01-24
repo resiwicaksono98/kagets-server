@@ -37,7 +37,6 @@ app.use(
       saveUninitialized: false,
       store: store,
       cookie: {
-         secure: true,
          maxAge: 1000 * 60 * 60 * 24 * 1, // 1 Day
          sameSite: "none",
       },
@@ -50,8 +49,8 @@ app.set("view engine", "jade");
 
 app.use(
    cors({
-      origin: ["http://localhost:3000", "http://localhost:5173", "http://localhost:4173", "https://kagetsapp.vercel.app", "https://kagets-admin.vercel.app"],
       credentials: true,
+      origin: ["http://localhost:3000", "http://localhost:5173", "http://localhost:4173", "https://kagetsapp.vercel.app", "https://kagets-admin.vercel.app"],
       optionsSuccessStatus: 200,
    })
 );
