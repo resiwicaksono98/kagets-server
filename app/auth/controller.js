@@ -80,7 +80,6 @@ const login = async (req, res, next) => {
       res.cookie("refreshToken", refreshToken, {
          httpOnly: true,
          secure: "resiwicaksonoxpitriani",
-         signed: true,
          maxAge: 24 * 60 * 60 * 1000,
       });
       res.status(200).json({ user, accessToken });
